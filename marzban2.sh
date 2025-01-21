@@ -9,7 +9,7 @@ APP_DIR="$INSTALL_DIR/$APP_NAME"
 DATA_DIR="/var/lib/$APP_NAME"
 COMPOSE_FILE="$APP_DIR/docker-compose.yml"
 ENV_FILE="$APP_DIR/.env"
-LAST_XRAY_CORES=5
+LAST_XRAY_CORES=10
 
 colorized_echo() {
     local color=$1
@@ -78,18 +78,6 @@ detect_and_update_package_manager() {
     fi
 }
 
-detect_compose() {
-    # Check if docker compose command exists
-    if docker compose >/dev/null 2>&1; then
-        COMPOSE='docker compose'
-        elif docker-compose >/dev/null 2>&1; then
-        COMPOSE='docker-compose'
-    else
-        colorized_echo red "docker compose not found"
-        exit 1
-    fi
-}
-
 install_package () {
     if [ -z $PKG_MANAGER ]; then
         detect_and_update_package_manager
@@ -116,6 +104,18 @@ install_docker() {
     colorized_echo blue "Installing Docker"
     curl -fsSL https://get.docker.com | sh
     colorized_echo green "Docker installed successfully"
+}
+
+detect_compose() {
+    # Check if docker compose command exists
+    if docker compose >/dev/null 2>&1; then
+        COMPOSE='docker compose'
+        elif docker-compose >/dev/null 2>&1; then
+        COMPOSE='docker-compose'
+    else
+        colorized_echo red "docker compose not found"
+        exit 1
+    fi
 }
 
 install_marzban_script() {
