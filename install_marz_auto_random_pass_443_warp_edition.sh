@@ -43,7 +43,7 @@ IPVPS=`ip addr show $ETH | grep global | sed -En -e 's/.*inet ([0-9.]+).*/\1/p' 
 
 # Download env and fix pass.
 cd /root/
-curl -sL "https://checkvpn.net/files/.env.example" -o .env.example
+curl -sL "https://raw.githubusercontent.com/ro-kar/ro-kar/main/.env.example" -o .env.example
 cp -r .env.example env_marzban
 
 
@@ -57,14 +57,14 @@ RANDPORT=`echo $(( ( RANDOM % 65535 )  + 1025 ))`
 sed -i '2d' env_marzban
 sed -i -e '1iUVICORN_PORT = "'$RANDPORT'"  ' env_marzban
 sed -i -e '1iSUDO_PASSWORD = "'$PASSMARZBAN'"  ' env_marzban
-sed -i -e '1iSUDO_USERNAME = "admin1"  ' env_marzban
+sed -i -e '1iSUDO_USERNAME = "roka2"  ' env_marzban
 
 
 
 
 
 # install marzban  with fixed .env
-bash -c "$(curl -sL https://checkvpn.net/files/marzban2.sh )" @ install v0.6.0
+sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
 
 
 
@@ -80,7 +80,7 @@ docker run --restart=always --log-driver none -itd --name warp_socks_v3 -p 127.0
 sleep 1
 echo "------------------------------------------"
 echo "WEB interface Marzban IP: http://"$IPVPS":"$RANDPORT"/dashboard/login"
-echo "WEB interface Marzban login: admin1"
+echo "WEB interface Marzban login: roka2"
 echo "WEB interface Marzban password:" $PASSMARZBAN
 
 
